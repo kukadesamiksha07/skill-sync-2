@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill-Sync | AI-Powered Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            overflow-x: hidden;
+            padding-top: 70px; /* Space for fixed navbar */
+        }
+
+        /* Animated Background Gradients */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.4;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(20%, 20%); }
+        }
+
+        /* --- STICKY NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+            height: 70px;
+            backdrop-filter: blur(15px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+/* Navbar links styling */
+nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover effect */
+nav a:hover {
+    color: #ffffff;
+}
+
+/* Spacing between navbar items */
+.nav-menu a {
+    margin: 0 12px;
+}
+
+/* Underline animation (modern effect) */
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Active click effect */
+nav a:active {
+    color: #c084fc;
+}
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn-login {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            color: var(--primary);
+        }
+
+        /* General Button Style */
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Feature Cards */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 5rem 10%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(12px);
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card i {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+    
+    <nav>
+        <a href="#" class="logo">
+            <i data-lucide="layers"></i> Skill-Sync
+        </a>
+        
+        <div class="nav-menu">
+            <a href="{{ url_for('index') }}">Home</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('chat') }}">Chat</a>
+  <a href="{{ url_for('experience') }}">Experience</a>
+  <a href="{{ url_for('feedback') }}">Feedback</a>
+  <a href="{{ url_for('final_portfolio') }}">Portfolio</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+            <button class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Join Beta</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Stop Paying. <br> <span style="color: var(--primary)">Start Swapping.</span></h1>
+        <p>Connect with experienced peers to master new skills and get real-world experience. Our AI coach helps you communicate like a pro.</p>
+    <a href="{{ url_for('dashboard') }}">
+  <button class="btn">Start Your First Swap</button>
+</a>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <i data-lucide="users"></i>
+            <h3>P2P Matching</h3>
+            <p>Our AI analyzes your skill gaps and finds the perfect experienced mentor for you.</p>
+        </div>
+        <div class="card">
+            <i data-lucide="message-square"></i>
+            <h3>AI Comm-Coach</h3>
+            <p>Get real-time feedback on your professional communication during chats.</p>
+        </div>
+        <div class="card">
+            <i data-lucide="award"></i>
+            <h3>Experience Gates</h3>
+            <p>Complete verified tasks assigned by mentors to earn certificates and XP.</p>
+        </div>
+    </section>
+
+    <script>
+        lucide.createIcons();
+
+        function startApp() {
+            // Smoothly redirect to login or dashboard
+            window.location.href = 'login.html';
+        }
+
+        // Parallax effect for the background blob
+        document.addEventListener('mousemove', (e) => {
+            const blob = document.querySelector('.blob');
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            blob.style.transform = `translate(${x * 100}px, ${y * 100}px)`;
+        });
+    </script>
+</body>
+</html>

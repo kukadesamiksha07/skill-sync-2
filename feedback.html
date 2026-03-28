@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Feedback | Skill-Sync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: white; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px; /* Space for fixed navbar */
+        }
+
+        /* --- Navbar Styles --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- Original Content Styles --- */
+        .feedback-container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 3rem;
+        }
+
+        .header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+        
+        .rating-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .rating-card {
+            background: rgba(255,255,255,0.02);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .rating-label { font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .score { font-size: 2rem; font-weight: 700; color: var(--primary); }
+
+        .skill-bar-container { margin-bottom: 1.5rem; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .bar-fill { height: 100%; background: var(--primary); border-radius: 10px; transition: 1s ease-out; }
+
+        .btn-save {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background 0.3s;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-hover);
+        }
+
+        @media (max-width: 600px) {
+            .rating-section { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* Simple hide for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo">
+            <i data-lucide="layers"></i> Skill-Sync
+        </a>
+        <ul class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('chat') }}">Chat</a>
+  <a href="{{ url_for('experience') }}">Experience</a>
+  <a href="{{ url_for('feedback') }}">Feedback</a>
+  <a href="{{ url_for('final_portfolio') }}">Portfolio</a>
+        </ul>
+        <div class="nav-profile">
+            <div class="profile-pic">
+                <i data-lucide="user" size="20"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="feedback-container">
+        <div class="header">
+            <h1>Review: <span style="color: var(--primary);">Python Flask Session</span></h1>
+            <p style="color: #94a3b8;">Mentor: Arjun Mehta | Date: Mar 10, 2026</p>
+        </div>
+
+        <div class="rating-section">
+            <div class="rating-card">
+                <p class="rating-label">Technical Competence</p>
+                <p class="score">4.8 / 5.0</p>
+            </div>
+            <div class="rating-card">
+                <p class="rating-label">Communication Clarity</p>
+                <p class="score">4.5 / 5.0</p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">Skill Breakdown</h3>
+        
+        <div class="skill-bar-container">
+            <div class="skill-header"><span>Routing & Logic</span><span>95%</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 95%;"></div></div>
+        </div>
+
+        <div class="skill-bar-container">
+            <div class="skill-header"><span>Database Integration</span><span>88%</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 88%;"></div></div>
+        </div>
+
+        <div class="skill-bar-container">
+            <div class="skill-header"><span>Problem Solving</span><span>90%</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width: 90%;"></div></div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Mentor's Summary</h3>
+        <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-top: 0.5rem;">
+            "The learner showed a rapid understanding of how Flask handles requests. They were able to debug a circular import issue with minimal guidance. Their professional tone in chat was excellent."
+        </p>
+
+        <button class="btn-save" onclick="window.location.href='final.html'">View in Portfolio</button>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

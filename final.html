@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Portfolio | Skill-Sync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { 
+            --primary: #6366f1; 
+            --primary-hover: #4f46e5;
+            --bg: #0f172a; 
+            --glass: rgba(255, 255, 255, 0.05); 
+            --border: rgba(255, 255, 255, 0.1); 
+            --nav-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: white; 
+            min-height: 100vh;
+            padding-top: 100px; /* Space for fixed navbar */
+        }
+
+        /* --- Navbar Styles --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* --- Original Portfolio Styles --- */
+        .portfolio-container { max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+        
+        .project-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tag { background: var(--primary); padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        
+        .code-window {
+            background: #010816;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #818cf8;
+            border: 1px solid var(--border);
+            line-height: 1.5;
+        }
+
+        .mentor-review {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+        }
+
+        .btn-return {
+            background: none; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 1rem 2rem; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            width: 100%;
+            transition: all 0.3s;
+            margin-bottom: 3rem;
+        }
+
+        .btn-return:hover {
+            background: var(--glass);
+            border-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .portfolio-container header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-logo">
+            <i data-lucide="layers"></i> Skill-Sync
+        </a>
+        <ul class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('chat') }}">Chat</a>
+  <a href="{{ url_for('experience') }}">Experience</a>
+  <a href="{{ url_for('feedback') }}">Feedback</a>
+  <a href="{{ url_for('final_portfolio') }}">Portfolio</a>
+        </ul>
+        <div class="nav-actions">
+            <button class="profile-btn">
+                <i data-lucide="user" size="18"></i> Profile
+            </button>
+        </div>
+    </nav>
+
+    <div class="portfolio-container">
+        <header style="margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem;">My <span style="color: var(--primary);">Skills Portfolio</span></h1>
+            <p style="color: #94a3b8;">Real projects. Real feedback. Real experience.</p>
+        </header>
+
+        {% for project in projects %}
+<div class="project-card">
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="tag">{{ project.tag }}</span>
+        <span style="color: #94a3b8; font-size: 0.8rem;">
+            Completed {{ project.date }}
+        </span>
+    </div>
+
+    <h2 style="margin: 1rem 0;">{{ project.title }}</h2>
+
+    <p style="color: #cbd5e1;">{{ project.description }}</p>
+
+    <div class="code-window">
+        {{ project.code }}
+    </div>
+
+    <div class="mentor-review">
+        <p style="font-weight: 600; color: #10b981;">Mentor Endorsement:</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+            "{{ project.mentor_review }}" - <strong>{{ project.mentor_name }}</strong>
+        </p>
+    </div>
+
+</div>
+{% endfor %}
+            <h2 style="margin: 1rem 0;">Python Flask API for Skill-Sharing</h2>
+            <p style="color: #cbd5e1;">Developed a RESTful API with SQLite integration and JWT authentication.</p>
+            
+            <div class="code-window">
+                // Verified Code Snippet <br>
+                @app.route('/api/match', methods=['POST']) <br>
+                def get_match(): <br>
+                &nbsp;&nbsp;user_skills = request.json.get('skills') <br>
+                &nbsp;&nbsp;return jsonify(ai_engine.find_mentor(user_skills))
+            </div>
+
+            <div class="mentor-review">
+                <p style="font-weight: 600; color: #10b981;">Mentor Endorsement:</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">"The candidate successfully implemented complex routing logic and handled database errors effectively." - <strong>Arjun Mehta</strong></p>
+            </div>
+        </div>
+
+        <button class="btn-return" onclick="window.location.href='dashboard.html'">
+            Return to Learning Dashboard
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+            <div style="background: rgba(99, 102, 241, 0.2); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; display: flex; align-items: center; gap: 4px;">
+                <i data-lucide="shield-check" size="12"></i> AI & Peer Verified
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Trigger Lucide icons to render
+        lucide.createIcons();
+    </script>
+
+    {% for project in projects %}
+<div class="project-card">
+
+    <h2>{{ project.title }}</h2>
+    <p>{{ project.description }}</p>
+
+</div>
+{% endfor %}
+
+</body>
+</html>

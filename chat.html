@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coached Chat | Skill-Sync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        /* Layout adjustment for Navbar */
+        body { 
+            background-color: var(--bg); 
+            color: white; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; /* Stack Navbar on top of Chat */
+            overflow: hidden; 
+        }
+
+        /* --- NAVIGATION BAR STYLES --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            backdrop-filter: blur(15px);
+            background: rgba(15, 23, 42, 0.7);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+/* Navbar links styling */
+nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Hover effect */
+nav a:hover {
+    color: #ffffff;
+}
+
+/* Spacing between navbar items */
+.nav-menu a {
+    margin: 0 12px;
+}
+
+/* Underline animation (modern effect) */
+nav a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(to right, #818cf8, #c084fc);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Active click effect */
+nav a:active {
+    color: #c084fc;
+}
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+        }
+
+        .btn-join {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- CHAT AREA STYLES --- */
+        .chat-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            width: 100%;
+            flex: 1; /* Occupy remaining height */
+            overflow: hidden;
+        }
+
+        .main-chat {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+        }
+
+        .chat-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        .messages-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .sent {
+            align-self: flex-end;
+            background: var(--primary);
+            border-bottom-right-radius: 4px;
+        }
+
+        .received {
+            align-self: flex-start;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+
+        .input-area {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid var(--border);
+        }
+
+        input {
+            flex: 1;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+
+        .coach-sidebar {
+            background: rgba(99, 102, 241, 0.03);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            overflow-y: auto;
+        }
+
+        .coach-card {
+            background: var(--glass);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 1.2rem;
+            border-radius: 16px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 900px) {
+            .chat-container { grid-template-columns: 1fr; }
+            .coach-sidebar { display: none; }
+            .nav-menu { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">
+            <i data-lucide="layers"></i> Skill-Sync
+        </a>
+        
+        
+        <div class="nav-menu">
+             <a href="{{ url_for('index') }}">Home</a>
+  <a href="{{ url_for('dashboard') }}">Dashboard</a>
+  <a href="{{ url_for('chat') }}">Chat</a>
+  <a href="{{ url_for('experience') }}">Experience</a>
+  <a href="{{ url_for('feedback') }}">Feedback</a>
+  <a href="{{ url_for('final_portfolio') }}">Portfolio</a>
+
+        <div class="nav-actions">
+            <button class="btn-join">Join Beta</button>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <section class="main-chat">
+            <div class="chat-header">
+                <div style="width: 35px; height: 35px; background: #a855f7; border-radius: 50%;"></div>
+                <div>
+                    <h4 style="font-size: 0.95rem;">Arjun Mehta</h4>
+                    <span style="font-size: 0.65rem; color: #4ade80;">● Online | Mentor</span>
+                </div>
+            </div>
+
+            <div class="messages-area" id="chatWindow">
+                <div class="message received">
+                    Hey! Glad to connect. Ready to dive into the Python Flask backend logic today?
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKey(event)">
+                <button onclick="sendMessage()" style="background: var(--primary); border: none; padding: 0.7rem 1.2rem; border-radius: 12px; cursor: pointer; color: white;">
+                    <i data-lucide="send" size="18"></i>
+                </button>
+            </div>
+        </section>
+
+        <aside class="coach-sidebar">
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <i data-lucide="sparkles" style="color: var(--primary); width: 24px; height: 24px;"></i>
+                <h3 style="font-size: 1.1rem; margin-top: 0.5rem;">AI Comm-Coach</h3>
+            </div>
+            
+            <div id="coachTips">
+                <div class="coach-card">
+                    <h4 style="display: flex; align-items: center; gap: 0.5rem; color: #818cf8; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                        <i data-lucide="info" size="14"></i> Tip
+                    </h4>
+                    <p style="font-size: 0.8rem; color: #cbd5e1;">When starting a session, it's good practice to summarize what you've learned since the last meeting.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    const chatWindow = document.getElementById('chatWindow');
+
+    const userText = input.value.trim();
+    if (userText === "") return;
+
+    // Show user message
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message sent';
+    msgDiv.textContent = userText;
+    chatWindow.appendChild(msgDiv);
+
+    input.value = "";
+
+    // 🔥 Disable input temporarily (prevents bug)
+    input.disabled = true;
+
+    fetch('/api/get_reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: userText })
+    })
+    .then(response => response.json().then(data => {
+        if (!response.ok) {
+            throw new Error(data.error || data.reply || "Server error");
+        }
+        return data;
+    }))
+    .then(data => {
+        const replyDiv = document.createElement('div');
+        replyDiv.className = 'message received';
+        replyDiv.textContent = data.reply || "No reply";
+
+        chatWindow.appendChild(replyDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'message received';
+        errorDiv.textContent = "⚠️ Something went wrong. Try again.";
+
+        chatWindow.appendChild(errorDiv);
+    })
+    .finally(() => {
+        input.disabled = false;
+        input.focus();
+    });
+}
+
+function handleKey(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+// ✅ ADD THIS LINE
+lucide.createIcons();
+
+</script>
+
+</body>
+</html>

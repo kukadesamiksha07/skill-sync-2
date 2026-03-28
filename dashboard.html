@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Skill-Sync</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+        }
+
+        /* Logout button styling */
+nav a[href*="logout"] {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+nav a[href*="logout"]:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Click effect */
+nav a[href*="logout"]:active {
+    background: var(--primary);
+    color: white;
+}
+
+        /* Navbar */
+        .top-nav {
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Layout */
+        .dashboard-wrapper {
+            display: flex;
+            padding-top: var(--nav-height);
+        }
+
+        aside {
+            width: 260px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 2rem;
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        /* Sidebar */
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Cards */
+        .mentor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mentor-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* Progress */
+        .progress-container {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            width: 50%;
+        }
+
+        /* Button */
+        .btn-connect {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="top-nav">
+    <a href="{{ url_for('index') }}" class="logo">Skill-Sync</a>
+
+    <div class="nav-right">
+        <i data-lucide="user"></i>
+        <span>{{ session.get('user_name', 'User') }}</span>
+        <a href="{{ url_for('logout') }}" style="color:#94a3b8;">Logout</a>
+    </div>
+</nav>
+
+<div class="dashboard-wrapper">
+
+    <!-- Sidebar -->
+    <aside>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+
+        <a href="{{ url_for('chat') }}" class="nav-item">
+            <i data-lucide="message-square"></i> My Swaps
+        </a>
+
+        <a href="{{ url_for('experience') }}" class="nav-item">
+            <i data-lucide="award"></i> Experience
+        </a>
+
+        <a href="{{ url_for('final_portfolio') }}" class="nav-item">
+            <i data-lucide="folder-kanban"></i> Portfolio
+        </a>
+
+        <a href="{{ url_for('feedback') }}" class="nav-item">
+            <i data-lucide="star"></i> Feedback
+        </a>
+    </aside>
+
+    <!-- Main -->
+    <main>
+        <h1>Welcome back, {{ session.get('user_name', 'User') }}!</h1>
+
+        <div class="mentor-grid">
+
+            {% for mentor in mentors %}
+            <div class="mentor-card">
+
+                <i data-lucide="user-circle"></i>
+
+                <h3>{{ mentor.name }}</h3>
+                <p>Skill: {{ mentor.skill }}</p>
+                <p>Match: {{ mentor.match }}</p>
+
+                <p>XP: {{ mentor.xp }}</p>
+
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+
+                <button class="btn-connect">
+                    <i data-lucide="zap"></i> Request Swap
+                </button>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+</div>
+
+<script>
+    lucide.createIcons();
+
+    let progress = 0;
+
+    function completeTask(id, amount) {
+        const task = document.getElementById(id);
+        if(task.classList.contains('completed')) return;
+
+        task.classList.add('completed');
+        progress = amount;
+
+        // ✅ Update UI
+        document.getElementById('progressCircle')
+            .style.setProperty('--progress', `${progress}%`);
+        document.getElementById('xpValue').textContent = `${progress}%`;
+
+        // 🔥 SEND TO BACKEND
+        fetch('/api/complete_task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                task_id: id   // sending task1, task2, task3
+            })
+        });
+
+        if(progress === 100) {
+            document.getElementById('finishBtn').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
